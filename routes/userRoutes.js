@@ -6,7 +6,7 @@ const jwt=require('jsonwebtoken');
 const config = require('config');
 
 const UserModel=require('../models/userModel')
-const{loginValidator,registerValidator}=require('../validators/UserValidator')
+const{loginValidator,registerValidator}=require('../validators/UserValidator');
 
 router.post("/api/login",async (req,res)=>{
     const {error}=loginValidator(req.body)
