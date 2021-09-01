@@ -6,6 +6,10 @@ const {validateCreateCustommer,validatePutCustommer,validateDeleteCustommer}=req
 const { loginMiddleware } = require('../middleware/authMiddleware')
 
 
+router.get('/api/me',loginMiddleware, async (req, res)=>{
+    res.send(req.user)
+})
+
 
 router.get('/api/users',loginMiddleware, async (req, res) => {
     
