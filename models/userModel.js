@@ -5,6 +5,7 @@ const schema= new mongoose.Schema(
         name:String,
         phone:{type:String,unique:true},
         password:{type:String},
+        role:{type:String,required:true,default:'user'},
     }
     );
 

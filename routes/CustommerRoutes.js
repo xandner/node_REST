@@ -4,6 +4,7 @@ const router=express.Router()
 const Customer = require('../models/costommerModel')
 const {validateCreateCustommer,validatePutCustommer,validateDeleteCustommer}=require('../validators/custommerValidator')
 const { loginMiddleware } = require('../middleware/authMiddleware')
+const { adminMiddleware } = require('../middleware/adminiddleware')
 
 
 router.get('/api/me',loginMiddleware, async (req, res)=>{
@@ -11,7 +12,7 @@ router.get('/api/me',loginMiddleware, async (req, res)=>{
 })
 
 
-router.get('/api/users',loginMiddleware, async (req, res) => {
+router.get('/api/users',[loginMiddleware,adminMiddleware], async (req, res) => {
     
     const custommers=await Customer.find()
     res.send(custommers)
