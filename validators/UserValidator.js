@@ -13,6 +13,8 @@ const registerValidator=(data)=>{
         phone:Joi.string().required(),
         password:Joi.string().required().min(5),
         name:Joi.string().required(),
+        role:Joi.string(),
+
         //name:Joi.string().min(2).max(20).required()
 
     })

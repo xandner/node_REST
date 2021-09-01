@@ -18,6 +18,7 @@ router.post("/api/login",async (req,res)=>{
     const data={
         _id: user.id,
         name: user.name,
+        role: user.role,
     }
     const token=jwt.sign(data,config.get("iwtPrivateKye"))
     res.status(200).send({message:token})
@@ -35,7 +36,7 @@ router.post("/api/register",async (req,res)=>{
     //     }
     // )
     
-    const newUser = new UserModel(_.pick(req.body,["name","phone","password"]))
+    const newUser = new UserModel(_.pick(req.body,["name","phone","password","role"]))
     const salt=await bcrypt.genSaltSync(10)
     const pass=await bcrypt.hash(req.body.password, salt)
     newUser.password=pass
