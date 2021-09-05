@@ -62,4 +62,5 @@ router.delete("/api/users/:custommerId",loginMiddleware,async(req,res)=>{
     res.status(200).send('deleted')
 })
 
+
 module.exports =router;
