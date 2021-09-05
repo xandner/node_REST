@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const kavenegar = require("kavenegar");
+const nodeCach= require("node-cache");
+
 
 const UserModel = require("../models/userModel");
 const {
@@ -61,6 +63,8 @@ router.post("/api/sendcode", loginMiddleware, async (req, res) => {
       config.get("kavenegar_apiKey"),
   });
   const num = Math.floor(Math.random() * 10000 + 1000);
+  const myCach=new nodeCach({stdTTL:100,checkperiod:120})
+  myCach.set(user.phone,number)
   api.Send(
     {
       message: `test code is ${num}`,

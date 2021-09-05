@@ -20,6 +20,7 @@
     "kavenegar": "^1.1.4",
     "lodash": "^4.17.21",
     "mongoose": "^5.13.8",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-cache": "^5.1.2"
   }
 }
