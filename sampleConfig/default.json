@@ -1,5 +1,6 @@
 {
     "databaseAddress":"address",
-    "iwtPrivateKye":"XxXxXx"
+    "iwtPrivateKye":"XxXxXx",
+    "kavenegar_apiKey":"your api key"
 
 }
