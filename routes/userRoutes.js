@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const kavenegar = require("kavenegar");
-const nodeCach= require("node-cache");
+const nodeCach = require("node-cache");
+const myCach = new nodeCach({ stdTTL: 100, checkperiod: 120 });
 
 
 const UserModel = require("../models/userModel");
@@ -59,12 +60,10 @@ router.post("/api/sendcode", loginMiddleware, async (req, res) => {
   const user = await UserModel.findById(id);
   if (!user) return res.status(404).send({ message: "user not found" });
   const api = kavenegar.KavenegarApi({
-    apikey:
-      config.get("kavenegar_apiKey"),
+    apikey: config.get("kavenegar_apiKey"),
   });
   const num = Math.floor(Math.random() * 10000 + 1000);
-  const myCach=new nodeCach({stdTTL:100,checkperiod:120})
-  myCach.set(user.phone,number)
+  myCach.set(req.user._id, num);
   api.Send(
     {
       message: `test code is ${num}`,
@@ -77,6 +76,19 @@ router.post("/api/sendcode", loginMiddleware, async (req, res) => {
     }
   );
   res.send("ok");
+});
+
+router.post("/api/get_code", loginMiddleware,async (req, res) => {
+    if(!req.body.code) return res.status(400).send("you must send the code");
+    const code=req.body.code;
+    const lastCode=myCach.get(req.user._id)
+    if (code===lastCode) {
+        const user=await UserModel.findById(req.user._id)
+        user.active=true;
+        await user.save();
+        return res.status(200).send("ok")
+    }
+    else return res.status(404).send("bad code");
 });
 
 module.exports = router;
