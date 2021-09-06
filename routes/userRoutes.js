@@ -79,7 +79,7 @@ router.post("/api/sendcode", loginMiddleware, async (req, res) => {
 
 router.post("/api/get_code", loginMiddleware, async (req, res) => {
   if (!req.body.code) return res.status(400).send("you must send the code");
-  const code = req.bod.code;
+  const code = req.body.code;
   const lastCode = myCach.get(req.user._id);
   if (code === lastCode) {
     const user = await UserModel.findById(req.user._id);

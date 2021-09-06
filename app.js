@@ -2,6 +2,7 @@
 const express =require ('express')
 const morgan=require('morgan')
 require('express-async-errors')
+const winston= require('winston')
 const mongoose= require('mongoose');
 const {myMiddalware}= require('./middalware')
 const custommerRoutes= require ('./routes/CustommerRoutes')
@@ -16,6 +17,7 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 const app=express();
 
 
+winston.add(new winston.transports.File({ filename: 'error.log', level: 'error' }))
 
 app.use(express.json())
 app.use(myMiddalware)
