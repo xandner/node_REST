@@ -8,7 +8,6 @@ const kavenegar = require("kavenegar");
 const nodeCach = require("node-cache");
 const myCach = new nodeCach({ stdTTL: 100, checkperiod: 120 });
 
-
 const UserModel = require("../models/userModel");
 const {
   loginValidator,
@@ -78,17 +77,16 @@ router.post("/api/sendcode", loginMiddleware, async (req, res) => {
   res.send("ok");
 });
 
-router.post("/api/get_code", loginMiddleware,async (req, res) => {
-    if(!req.body.code) return res.status(400).send("you must send the code");
-    const code=req.body.code;
-    const lastCode=myCach.get(req.user._id)
-    if (code===lastCode) {
-        const user=await UserModel.findById(req.user._id)
-        user.active=true;
-        await user.save();
-        return res.status(200).send("ok")
-    }
-    else return res.status(404).send("bad code");
+router.post("/api/get_code", loginMiddleware, async (req, res) => {
+  if (!req.body.code) return res.status(400).send("you must send the code");
+  const code = req.bod.code;
+  const lastCode = myCach.get(req.user._id);
+  if (code === lastCode) {
+    const user = await UserModel.findById(req.user._id);
+    user.active = true;
+    await user.save();
+    return res.status(200).send("ok");
+  } else return res.status(404).send("bad code");
 });
 
 module.exports = router;

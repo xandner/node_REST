@@ -1,10 +1,12 @@
 // const { query } = require('express');
 const express =require ('express')
 const morgan=require('morgan')
+require('express-async-errors')
 const mongoose= require('mongoose');
 const {myMiddalware}= require('./middalware')
 const custommerRoutes= require ('./routes/CustommerRoutes')
-const userRoutes= require('./routes/userRoutes')
+const userRoutes= require('./routes/userRoutes');
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 // console.log(config.get("databaseAddress"));
 
@@ -28,6 +30,7 @@ app.get('/', (req, res) => {
      res.send("Hi")
 })
 
+app.use(errorMiddleware)
 
 mongoose.connect("mongodb://localhost:27017/custommer",{
     useNewUrlParser: true,
