@@ -19,9 +19,11 @@ const app = express();
 winston.add(
   new winston.transports.File({ filename: "error.log", level: "error" })
 );
-winston.add(new winston.transports.MongoDB({ 
-    db:"mongodb://localhost:27017/logger"
-}))
+winston.add(
+  new winston.transports.MongoDB({
+    db: "mongodb://localhost:27017/logger",
+  })
+);
 
 app.use(express.json());
 app.use(myMiddalware);
@@ -37,6 +39,14 @@ app.get("/", (req, res) => {
 
 app.use(errorMiddleware);
 
+process.on("uncaughtException", (err) => {
+  console.log("uncaughtException");
+  winston.error(err.message);
+});
+process.on("unhandledRejection", (err) => {
+  console.log("unhandledRejection");
+  winston.error(err.message);
+});
 mongoose
   .connect("mongodb://localhost:27017/custommer", {
     useNewUrlParser: true,
